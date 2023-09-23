@@ -1,3 +1,4 @@
+import os
 import time
 import platform
 
@@ -12,6 +13,8 @@ from entity.chuanchuan_model import PredictorModel  # 导入注册文件，完�
 from entity.chuanchuan_dataset import PredictorData  # 导入注册文件，完成注册
 from log.sys_log import logger
 import entity.upload_image as upload_image
+import utils.file_util
+from utils import file_util
 
 
 class predictor_image:
@@ -116,4 +119,8 @@ def get_predictor_image_instance():
     merge_from_file = config.dt2_merge_from_file
     model_path = config.dt2_model_path
     dataset_name = config.dt2_dataset_name
+    if not file_util.file_exists(model_path):
+        model_path = os.path.join(
+            os.getcwd(), "model" + file_util.separator + "model_final.pth"
+        )
     return predictor_image(model_path, merge_from_file, dataset_name)
